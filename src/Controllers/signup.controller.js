@@ -1,4 +1,5 @@
 import connection from "../Database/database.js";
+import { signupSchema } from "../Schemas/signupSchema.js";
 
 async function register (req, res) {
 
