@@ -10,7 +10,7 @@ const connection = new Pool({
     password: '401148',
     host: 'localhost',
     port: 5432,
-    database: 'shorty'
+    database: 'shortly'
 }); 
 
 /*const connection = new Pool({
