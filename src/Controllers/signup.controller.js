@@ -1,6 +1,6 @@
 import connection from "../Database/database.js";
-import { signupSchema } from "../Schemas/signupSchema.js";
 import bcrypt from 'bcrypt';
+
 async function register (req, res) {
 
     const { name, email, password, confirmPassword } = req.body;
