@@ -6,6 +6,7 @@ dotenv.config();
 
 import signupRouter from "./Routes/signupRouter.js";
 import loginRouter from "./Routes/loginRouter.js";
+import linksRouter from "./Routes/linksRouter.js";
 
 const app = express();
 app.use(cors());
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use(signupRouter);
 app.use(loginRouter);
+app.use(linksRouter);
 
 app.listen(5000, () => {
     console.log("Servidor rodando.")}

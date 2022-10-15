@@ -21,6 +21,8 @@ async function login (req, res) {
             `INSERT INTO sessions (token, "userId") VALUES ($1, $2);`, [token, user.id]
         );
 
+        console.log(token);
+
         }
 
         return res.sendStatus(200);
