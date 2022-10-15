@@ -10,9 +10,7 @@ async function login (req, res) {
 
         const { rows: users } = await connection.query(`SELECT * FROM users WHERE email = $1;`, [email]);
         const [user] = users;
-        console.log(user);
-        console.log(user.password);
-        console.log(password);
+
         const decryptedPassword = bcrypt.compareSync(password, user.password);
 
         if (decryptedPassword) {
@@ -20,15 +18,12 @@ async function login (req, res) {
             const token = uuid();
 
             await connection.query(
-            `INSERT INTO sessions ("userId", token) VALUES ($1, $2);`, [userId, token]
+            `INSERT INTO sessions (token, "userId") VALUES ($1, $2);`, [token, user.id]
         );
-        
-        console.log(user.id);
-        console.log(token);
 
         }
 
-        return res.status(200).send(token);
+        return res.sendStatus(200);
 
     } catch (error) {
         return res.status(422).send(error.message);
