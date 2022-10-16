@@ -50,4 +50,35 @@ async function getUrl (req, res) {
 
 }
 
-export { urlsShorten, getUrl };
+async function getShortUrl (req, res) {
+
+    const { shortUrl } = req.params;
+
+    if (shortUrl) {
+
+        try {
+
+            const { rows: urls } = await connection.query(`SELECT * FROM urls WHERE "shortUrl" = $1;`, [shortUrl]);
+ 
+            if (urls.length === 0) {
+                return res.sendStatus(404);
+            }
+
+            const [url] = urls;
+            
+            await connection.query(
+                `UPDATE urls SET "visitCount" = "visitCount" + 1 WHERE id = $1;`, [url.id]
+            )
+
+            res.redirect(url.url);
+
+        } catch (error) {
+            return res.send(error.message);
+        }
+
+    } else {
+        return res.status(404).status('A url não existe.');
+    }
+}
+
+export { urlsShorten, getUrl, getShortUrl };

@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.post('/urls/shorten', authToken, validateLinks, linksControllers.urlsShorten);
 router.get('/urls/:id', linksControllers.getUrl);
+router.get('/urls/open/:shortUrl', linksControllers.getShortUrl);
 
 export default router;
