@@ -81,4 +81,41 @@ async function getShortUrl (req, res) {
     }
 }
 
-export { urlsShorten, getUrl, getShortUrl };
+async function deleteUrl (req, res) {
+
+    const { id } = req.params;
+
+    const { user } = res.locals;
+
+    if (id) {
+
+        try {
+
+            const { rows: urls } = await connection.query(`SELECT * FROM urls WHERE id = $1;`, [id]);
+            const [url] = urls;
+            
+            if (urls.length === 0) {
+                return res.sendStatus(404);
+            }
+
+            if (url.userId !== user.id) {
+                return res.sendStatus(401);
+            }
+        
+            await connection.query(`
+                DELETE FROM urls WHERE id = $1;`, [id]
+            );
+
+            return res.sendStatus(200);
+
+        } catch (error) {
+            return res.send(error.message);
+        }
+
+    } else {
+        return res.status(404).status('ID nulo');
+    }
+
+}
+
+export { urlsShorten, getUrl, getShortUrl, deleteUrl };
