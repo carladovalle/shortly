@@ -9,5 +9,6 @@ router.post('/urls/shorten', authToken, validateLinks, linksControllers.urlsShor
 router.get('/urls/:id', linksControllers.getUrl);
 router.get('/urls/open/:shortUrl', linksControllers.getShortUrl);
 router.delete('/urls/:id', authToken, linksControllers.deleteUrl);
+router.get('/users/me', authToken, linksControllers.getUsersMe);
 
 export default router;
