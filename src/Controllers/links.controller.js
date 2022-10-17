@@ -168,7 +168,6 @@ async function ranking (req, res) {
 
         return res.send(result.rows);
 
-
     } catch (error) {
         return res.status(422).send(error.message);
     }
