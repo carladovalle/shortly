@@ -153,4 +153,26 @@ async function getUsersMe (req, res) {
 
 }
 
-export { urlsShorten, getUrl, getShortUrl, deleteUrl, getUsersMe };
+async function ranking (req, res) {
+
+    try {
+
+        const result = await connection.query(`
+        SELECT users.id, users.name, COUNT(urls.id) as "linksCount", SUM(urls."visitCount") as "visitCount"
+        FROM urls
+        JOIN users ON urls."userId" = users.id
+        GROUP BY users.id
+        ORDER BY "visitCount" DESC
+        LIMIT 10
+        ;`);
+
+        return res.send(result.rows);
+
+
+    } catch (error) {
+        return res.status(422).send(error.message);
+    }
+
+}
+
+export { urlsShorten, getUrl, getShortUrl, deleteUrl, getUsersMe, ranking };
